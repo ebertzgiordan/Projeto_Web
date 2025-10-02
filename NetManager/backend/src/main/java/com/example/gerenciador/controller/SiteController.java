@@ -1,11 +1,11 @@
 package com.example.gerenciador.controller;
 
+import com.example.gerenciador.dto.SiteRequestDTO;
 import com.example.gerenciador.model.Site;
-import com.example.gerenciador.repository.SiteRepository;
+import com.example.gerenciador.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,10 +14,28 @@ import java.util.List;
 public class SiteController {
 
     @Autowired
-    private SiteRepository repository;
+    private SiteService service;
 
     @GetMapping
     public List<Site> getAllSites() {
-        return repository.findAll();
+        return service.findAll();
+    }
+
+    @PostMapping
+    public ResponseEntity<Site> createSite(@RequestBody SiteRequestDTO data) {
+        Site novoSite = service.save(data);
+        return ResponseEntity.ok(novoSite);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Site> updateSite(@PathVariable Long id, @RequestBody SiteRequestDTO data) {
+        Site siteAtualizado = service.update(id, data);
+        return ResponseEntity.ok(siteAtualizado);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSite(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

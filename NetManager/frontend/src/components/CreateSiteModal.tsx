@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useSiteMutate } from '../hooks/useSiteMutate';
-import { SiteData } from '../types/SiteData';
-import './CreateSiteModal.css'; // Vamos criar um CSS para ele
+import { useSiteMutate } from '../hooks/useSiteMutate'; 
+import { type SiteData } from '../types/SiteData';
+import '../components/CreateSiteModal.css';
 
 interface CreateSiteModalProps {
   onClose: () => void;
-} 
+}
 
 const CreateSiteModal: React.FC<CreateSiteModalProps> = ({ onClose }) => {
   const [nome, setNome] = useState('');
