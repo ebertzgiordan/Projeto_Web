@@ -12,24 +12,41 @@ public class PontoDeRede {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "site_id")
-    private Site site;
+    @JoinColumn(name = "patch_panel_id", nullable = false)
+    private PatchPanel patchPanel;
+
+    @Column(nullable = false)
+    private Integer numeroPorta; // Ex: 1, 2, 3... 24
+
+    // O resto dos campos continua igual
+    private String tipoUso;
+    private String localizacao;
+    private Integer vlan;
+    @Column(name = "ip_address")
+    private String ipAddress;
+    private String notas;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    private Usuario usuario; // Usuário que fez a última modificação
 
-    @Column(name = "patch_panel_porta")
-    private String patchPanelPorta;
+    public void setSite(Site site) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setSite'");
+    }
 
-    @Column(name = "tipo_uso")
-    private String tipoUso;
+    public void setPatchPanelPorta(String patchPanelPorta) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setPatchPanelPorta'");
+    }
 
-    private String localizacao;
-    private Integer vlan;
+    public PatchPanel getSite() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSite'");
+    }
 
-    @Column(name = "ip_address")
-    private String ipAddress;
-
-    private String notas;
+    public String getPatchPanelPorta() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPatchPanelPorta'");
+    }
 }

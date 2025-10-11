@@ -1,5 +1,6 @@
 package com.example.gerenciador.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,4 +16,11 @@ public class Site {
     private String nome;
 
     private String endereco;
+
+    private Integer totalPortas;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Usuario usuario;
 }

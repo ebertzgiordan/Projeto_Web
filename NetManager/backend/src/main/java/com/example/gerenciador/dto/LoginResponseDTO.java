@@ -1,3 +1,5 @@
 package com.example.gerenciador.dto;
 
-public record LoginResponseDTO(String token) {}
+
+public record LoginResponseDTO(String token) {
+}
