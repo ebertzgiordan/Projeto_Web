@@ -17,7 +17,7 @@ public class PatchPanelService {
     @Autowired
     private PontoDeRedeRepository pontoDeRedeRepository;
 
-    @Transactional // Garante que tudo seja salvo junto ou nada
+    @Transactional
     public PatchPanel createPatchPanelAndPorts(PatchPanel patchPanel) {
         PatchPanel savedPanel = patchPanelRepository.save(patchPanel);
 
@@ -25,7 +25,7 @@ public class PatchPanelService {
             PontoDeRede novoPonto = new PontoDeRede();
             novoPonto.setPatchPanel(savedPanel);
             novoPonto.setNumeroPorta(i);
-            novoPonto.setTipoUso("Vaga"); // Inicia como 'Vaga'
+            novoPonto.setTipoUso("Vaga"); 
             pontoDeRedeRepository.save(novoPonto);
         }
         return savedPanel;

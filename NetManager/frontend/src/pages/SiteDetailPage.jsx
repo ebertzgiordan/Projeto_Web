@@ -13,32 +13,26 @@ import { Container, Card, Table, Spinner, Alert, Button, Form, Row, Col, ButtonG
 const SiteDetailPage = () => {
     const { id: siteId } = useParams();
     const navigate = useNavigate();
-
-    // Estados para controlar os modais e seleções
     const [selectedPanelId, setSelectedPanelId] = useState('');
     const [showPontoModal, setShowPontoModal] = useState(false);
     const [showPanelModal, setShowPanelModal] = useState(false);
     const [editingPonto, setEditingPonto] = useState(null);
 
-    // Hooks para buscar dados (GET)
     const { data: site, isLoading: isLoadingSite } = useSiteByIdData(siteId);
     const { data: patchPanels, isLoading: isLoadingPanels } = usePatchPanelsData(siteId);
     const { data: pontosDeRede, isLoading: isLoadingPontos } = usePontosDeRedeByPanelData(selectedPanelId);
 
-    // Hooks para modificar dados (POST, PUT, DELETE)
     const { create: createPonto, update: updatePonto, delete: deletePonto, isCreating, isUpdating, isDeleting } = usePontosDeRedeMutate();
     const { create: createPanel, isPending: isCreatingPanel } = usePatchPanelMutate();
 
     const isLoadingMutation = isCreating || isUpdating || isDeleting;
 
-    // Efeito para selecionar o primeiro patch panel da lista automaticamente
     useEffect(() => {
         if (patchPanels && patchPanels.length > 0 && !selectedPanelId) {
             setSelectedPanelId(patchPanels[0].id);
         }
     }, [patchPanels, selectedPanelId]);
 
-    // Funções para controlar o modal de PONTO DE REDE
     const handleOpenCreatePontoModal = () => {
         setEditingPonto(null);
         setShowPontoModal(true);
@@ -52,12 +46,10 @@ const SiteDetailPage = () => {
         setEditingPonto(null);
     };
     const handleSubmitPontoModal = (formData) => {
-        const dataPayload = { ...formData, usuarioId: 1 }; // OBS: usuarioId fixo (logado) para exemplo
+        const dataPayload = { ...formData, usuarioId: 1 };
         if (editingPonto) {
             updatePonto({ id: editingPonto.id, data: dataPayload }, { onSuccess: handleClosePontoModal });
         } else {
-            // A criação de pontos de rede agora é feita na edição de uma porta 'Vaga'
-            // Este botão de "Adicionar Ponto" pode ser removido no futuro se a lógica for apenas editar
             alert("Lógica de criação a ser definida: normalmente editamos uma porta 'Vaga'");
         }
     };
@@ -67,7 +59,6 @@ const SiteDetailPage = () => {
         }
     };
 
-    // Funções para controlar o modal de PATCH PANEL
     const handleCreatePanel = (data) => {
         createPanel({ siteId, data }, {
             onSuccess: () => setShowPanelModal(false)
@@ -79,7 +70,6 @@ const SiteDetailPage = () => {
 
     return (
         <>
-            {/* Renderiza os modais (eles ficam invisíveis até serem ativados) */}
             <PontoDeRedeModal show={showPontoModal} onHide={handleClosePontoModal} onSubmit={handleSubmitPontoModal} ponto={editingPonto} isLoading={isLoadingMutation} />
             <CreatePatchPanelModal show={showPanelModal} onHide={() => setShowPanelModal(false)} onSubmit={handleCreatePanel} isLoading={isCreatingPanel} />
 
@@ -134,8 +124,6 @@ const SiteDetailPage = () => {
                                     <td className="text-center">
                                         <ButtonGroup size="sm">
                                             <Button variant="outline-primary" onClick={() => handleOpenEditPontoModal(ponto)}>Editar</Button>
-                                            {/* O botão de excluir pode ser reativado se a lógica de negócio permitir */}
-                                            {/* <Button variant="outline-danger" onClick={() => handleDeletePonto(ponto.id)}>Excluir</Button> */}
                                         </ButtonGroup>
                                     </td>
                                 </tr>

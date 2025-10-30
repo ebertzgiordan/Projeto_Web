@@ -7,16 +7,16 @@ public record PontoDeRedeResponseDTO(
         String nomeCompletoDaPorta,
         String tipoUso,
         String localizacao,
-        Integer vlan,
+        Integer vlan, 
         String ipAddress
 ) {
     public PontoDeRedeResponseDTO(PontoDeRede pontoDeRede) {
         this(
                 pontoDeRede.getId(),
-                pontoDeRede.getPatchPanel().getNome() + "." + String.format("%02d", pontoDeRede.getNumeroPorta()),
+                pontoDeRede.getSite().getNome() + "." + pontoDeRede.getPatchPanelPorta(),
                 pontoDeRede.getTipoUso(),
                 pontoDeRede.getLocalizacao(),
-                pontoDeRede.getVlan(),
+                pontoDeRede.getVlan(), 
                 pontoDeRede.getIpAddress()
         );
     }

@@ -16,9 +16,8 @@ public class PontoDeRede {
     private PatchPanel patchPanel;
 
     @Column(nullable = false)
-    private Integer numeroPorta; // Ex: 1, 2, 3... 24
+    private Integer numeroPorta; 
 
-    // O resto dos campos continua igual
     private String tipoUso;
     private String localizacao;
     private Integer vlan;
@@ -28,25 +27,25 @@ public class PontoDeRede {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario; // Usuário que fez a última modificação
+    private Usuario usuario;
 
     public void setSite(Site site) {
-        // TODO Auto-generated method stub
+   
         throw new UnsupportedOperationException("Unimplemented method 'setSite'");
     }
 
     public void setPatchPanelPorta(String patchPanelPorta) {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'setPatchPanelPorta'");
     }
 
     public PatchPanel getSite() {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'getSite'");
     }
 
     public String getPatchPanelPorta() {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'getPatchPanelPorta'");
     }
 }

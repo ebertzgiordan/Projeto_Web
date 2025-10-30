@@ -24,13 +24,11 @@ public class PatchPanelController {
     @Autowired
     private PatchPanelService patchPanelService;
 
-    // Endpoint para buscar patch panels de um site específico
     @GetMapping("/by-site/{siteId}")
     public List<PatchPanel> getPanelsBySite(@PathVariable Long siteId) {
         return patchPanelRepository.findBySiteId(siteId);
     }
-
-    // Endpoint para criar um novo patch panel e suas portas
+ 
     @PostMapping("/by-site/{siteId}")
     public ResponseEntity<PatchPanel> createPanel(@PathVariable Long siteId, @RequestBody PatchPanel panelData) {
         Site site = siteRepository.findById(siteId)

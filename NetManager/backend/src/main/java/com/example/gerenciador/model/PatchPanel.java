@@ -12,7 +12,7 @@ public class PatchPanel {
     private Long id;
 
     @Column(nullable = false)
-    private String nome; // Ex: "LG.01"
+    private String nome;
 
     @Column(name = "total_portas", nullable = false)
     private Integer totalPortas;
