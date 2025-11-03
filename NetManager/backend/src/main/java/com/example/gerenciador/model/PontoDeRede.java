@@ -16,7 +16,7 @@ public class PontoDeRede {
     private PatchPanel patchPanel;
 
     @Column(nullable = false)
-    private Integer numeroPorta; 
+    private Integer numeroPorta;
 
     private String tipoUso;
     private String localizacao;
@@ -27,25 +27,6 @@ public class PontoDeRede {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    private Usuario usuario; 
 
-    public void setSite(Site site) {
-   
-        throw new UnsupportedOperationException("Unimplemented method 'setSite'");
-    }
-
-    public void setPatchPanelPorta(String patchPanelPorta) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'setPatchPanelPorta'");
-    }
-
-    public PatchPanel getSite() {
-
-        throw new UnsupportedOperationException("Unimplemented method 'getSite'");
-    }
-
-    public String getPatchPanelPorta() {
-
-        throw new UnsupportedOperationException("Unimplemented method 'getPatchPanelPorta'");
-    }
 }

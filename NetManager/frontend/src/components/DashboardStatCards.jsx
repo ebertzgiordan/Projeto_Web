@@ -3,7 +3,7 @@ import api from '../services/api';
 import { Card, Col, Row, Spinner } from 'react-bootstrap';
 
 const fetchStats = async () => {
-  const response = await api.get('/api/dashboard/stats/geral');
+  const response = await api.get('/api/dashboard/general-stats');
   return response.data;
 };
 

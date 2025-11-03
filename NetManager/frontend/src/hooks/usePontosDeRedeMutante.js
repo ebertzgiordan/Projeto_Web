@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../services/api';
 
-// Funções que falam com o backend
 const createPonto = async (data) => {
   const response = await api.post('/api/pontos-de-rede', data);
   return response.data;
@@ -18,27 +17,27 @@ const deletePonto = async (id) => {
 
 export function usePontosDeRedeMutate() {
   const queryClient = useQueryClient();
+  const handleSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ['pontos-de-rede-data'] });
+    
+    queryClient.invalidateQueries({ queryKey: ['global-stats'] });
+
+    queryClient.invalidateQueries({ queryKey: ['site-stats'] });
+  };
 
   const createMutation = useMutation({
     mutationFn: createPonto,
-    onSuccess: () => {
-      // Invalida o cache para forçar a atualização da lista
-      queryClient.invalidateQueries(['pontos-de-rede-data']);
-    }
+    onSuccess: handleSuccess
   });
 
   const updateMutation = useMutation({
     mutationFn: updatePonto,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['pontos-de-rede-data']);
-    }
+    onSuccess: handleSuccess 
   });
 
   const deleteMutation = useMutation({
     mutationFn: deletePonto,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['pontos-de-rede-data']);
-    }
+    onSuccess: handleSuccess 
   });
 
   return {

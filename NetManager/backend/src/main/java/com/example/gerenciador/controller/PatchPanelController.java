@@ -26,9 +26,10 @@ public class PatchPanelController {
 
     @GetMapping("/by-site/{siteId}")
     public List<PatchPanel> getPanelsBySite(@PathVariable Long siteId) {
-        return patchPanelRepository.findBySiteId(siteId);
+        
+        return patchPanelRepository.findBySiteIdOrderByNomeAsc(siteId);
     }
- 
+
     @PostMapping("/by-site/{siteId}")
     public ResponseEntity<PatchPanel> createPanel(@PathVariable Long siteId, @RequestBody PatchPanel panelData) {
         Site site = siteRepository.findById(siteId)

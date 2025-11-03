@@ -1,11 +1,13 @@
 import { useUserData } from '../hooks/userData';
-import { useUserMutate } from '../hooks/useUserMutate';
+import { useProfileMutate } from '../hooks/useProfileMutate'; 
 import { useState, useEffect } from 'react';
 import { Container, Card, Form, Button, Spinner } from 'react-bootstrap';
 
 const ProfilePage = () => {
   const { data: usuario, isLoading: isLoadingUser } = useUserData();
-  const { updateUser, isUpdating } = useUserMutate();
+  
+  const { updateProfile, isUpdating } = useProfileMutate(); 
+  
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
 
@@ -18,7 +20,14 @@ const ProfilePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateUser({ nome, email });
+
+    const dataPayload = {
+        nome: nome,
+        email: email,
+        papel: usuario.papel 
+    };
+    
+    updateProfile(dataPayload); 
   };
 
   if (isLoadingUser) return <Spinner />;

@@ -1,5 +1,7 @@
 package com.example.gerenciador.controller;
 
+import com.example.gerenciador.dto.ImportRequestDTO; 
+import org.springframework.http.HttpStatus;
 import com.example.gerenciador.dto.SiteRequestDTO;
 import com.example.gerenciador.dto.SiteResponseDTO;
 import com.example.gerenciador.model.Site;
@@ -46,5 +48,18 @@ public class SiteController {
     public ResponseEntity<Void> deleteSite(@PathVariable Long id) {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{siteId}/import-data")
+    public ResponseEntity<Void> importData(
+            @PathVariable Long siteId,
+            @RequestBody ImportRequestDTO data) {
+        try {
+            service.importData(siteId, data);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

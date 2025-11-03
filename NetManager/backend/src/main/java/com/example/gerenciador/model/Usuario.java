@@ -1,4 +1,4 @@
-package com.example.gerenciador.model; 
+package com.example.gerenciador.model; // Ou com.example.netmanager.model
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,9 +29,9 @@ public class Usuario implements UserDetails {
     @Column(name = "senha_hash")
     private String senha;
 
-    private Integer papel; 
+    private Integer papel; // 0: Técnico, 1: Admin
 
-    
+    // MÉTODOS QUE O SPRING SECURITY PRECISA (UserDetails)
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -45,14 +45,15 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.senha;
+        return this.senha; // O nome do campo que guarda a senha com hash
     }
 
     @Override
     public String getUsername() {
-        return this.email; 
+        return this.email; // O campo que usamos para login
     }
 
+    // Para este projeto, podemos deixar os métodos abaixo retornando 'true'
     @Override
     public boolean isAccountNonExpired() {
         return true;

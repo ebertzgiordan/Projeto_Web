@@ -11,7 +11,6 @@ const PontoDeRedeModal = ({ show, onHide, onSubmit, ponto, isLoading }) => {
     notas: ''
   });
 
-  // Se um 'ponto' for passado (modo de edição), preenche o formulário
   useEffect(() => {
     if (ponto) {
       setFormData({
@@ -23,7 +22,6 @@ const PontoDeRedeModal = ({ show, onHide, onSubmit, ponto, isLoading }) => {
         notas: ponto.notas || ''
       });
     } else {
-      // Reseta o formulário se for para criação
       setFormData({ patchPanelPorta: '', tipoUso: '', localizacao: '', vlan: '', ipAddress: '', notas: '' });
     }
   }, [ponto, show]);
@@ -41,14 +39,10 @@ const PontoDeRedeModal = ({ show, onHide, onSubmit, ponto, isLoading }) => {
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{ponto ? 'Editar Ponto de Rede' : 'Adicionar Novo Ponto de Rede'}</Modal.Title>
+        <Modal.Title>{ponto ? `Editar Porta: ${ponto.nomeCompletoDaPorta}` : 'Adicionar Novo Ponto de Rede'}</Modal.Title>
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
-          <Form.Group className="mb-3">
-            <Form.Label>Porta Patch Panel</Form.Label>
-            <Form.Control name="patchPanelPorta" value={formData.patchPanelPorta} onChange={handleChange} required />
-          </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Tipo de Uso</Form.Label>
             <Form.Control name="tipoUso" value={formData.tipoUso} onChange={handleChange} required />

@@ -4,17 +4,19 @@ import { Modal, Button, Form, Spinner } from 'react-bootstrap';
 const EditSiteModal = ({ site, show, onHide, onSubmit, isLoading }) => {
   const [nome, setNome] = useState('');
   const [endereco, setEndereco] = useState('');
+  const [notas, setNotas] = useState('');
 
   useEffect(() => {
     if (site) {
       setNome(site.nome);
       setEndereco(site.endereco || '');
+      setNotas(site.notas || '');
     }
   }, [site]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ nome, endereco }); 
+    onSubmit({ nome, endereco, notas }); 
   };
 
   return (
@@ -31,6 +33,10 @@ const EditSiteModal = ({ site, show, onHide, onSubmit, isLoading }) => {
           <Form.Group className="mb-3">
             <Form.Label>Endereço</Form.Label>
             <Form.Control type="text" value={endereco} onChange={(e) => setEndereco(e.target.value)} />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Notas</Form.Label>
+            <Form.Control as="textarea" rows={3} value={notas} onChange={(e) => setNotas(e.target.value)} />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

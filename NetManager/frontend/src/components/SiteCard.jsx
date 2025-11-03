@@ -1,19 +1,31 @@
+import { useState } from 'react'; 
 import { Card, Dropdown } from 'react-bootstrap';
 
 const SiteCard = ({ site, onClick, onEdit, onDelete }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const handleActionClick = (e) => {
     e.stopPropagation();
   };
 
   return (
-    <Card className="h-100 shadow-sm hover-shadow" style={{ cursor: 'pointer' }} onClick={onClick}>
+    <Card 
+      className="h-100 shadow-sm hover-shadow" 
+      style={{ 
+        cursor: 'pointer',
+        position: 'relative',
+        zIndex: isDropdownOpen ? 100 : 1 
+      }} 
+      onClick={onClick}
+    >
       <Card.Body>
         <div className="d-flex justify-content-between align-items-start">
           <div>
             <Card.Title className="mb-1">{site.nome}</Card.Title>
             <Card.Text className="text-muted small">{site.endereco || "Endereço não informado"}</Card.Text>
           </div>
-          <Dropdown onClick={handleActionClick}>
+          
+          <Dropdown onClick={handleActionClick} onToggle={(isOpen) => setIsDropdownOpen(isOpen)}>
             <Dropdown.Toggle variant="light" size="sm" id="dropdown-basic" />
             <Dropdown.Menu>
               <Dropdown.Item onClick={onEdit}>Editar</Dropdown.Item>

@@ -100,8 +100,4 @@ O modelo de dados evoluiu para uma estrutura profissional que reflete a realidad
 1.  Abra um **novo terminal** e navegue até a pasta `frontend`: `cd frontend`
 2.  Instale todas as dependências: `npm install`
 3.  Inicie a aplicação: `npm run dev`
-<<<<<<< HEAD
 4.  A aplicação abrirá no seu navegador, geralmente em **`http://localhost:
-=======
-4.  A aplicação abrirá no seu navegador, geralmente em **`http://localhost:
->>>>>>> 1731df3e3dd8b587132ef6e64a471e89eec08198
