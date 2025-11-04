@@ -8,4 +8,5 @@ public interface PatchPanelRepository extends JpaRepository<PatchPanel, Long> {
     List<PatchPanel> findBySiteId(Long siteId);
     Optional<PatchPanel> findBySiteIdAndNome(Long siteId, String nome);
     List<PatchPanel> findBySiteIdOrderByNomeAsc(Long siteId);
+    List<PatchPanel> findBySiteIdIn(List<Long> siteIds);
 }

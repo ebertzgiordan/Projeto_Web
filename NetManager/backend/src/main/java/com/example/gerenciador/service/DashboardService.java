@@ -65,11 +65,11 @@ public class DashboardService {
             return new DashboardGeralStatsDTO(totalSites, totalPatchPanels, totalPortasDisponiveis, portasEmUso, totalUsuarios);
         } 
 
-        else {
+        else { 
             List<Site> sitesDoUsuario = siteRepository.findByUsuarioId(usuarioLogado.getId());
             List<Long> siteIds = sitesDoUsuario.stream().map(Site::getId).collect(Collectors.toList());
 
-            List<PatchPanel> panelsDoUsuario = patchPanelRepository.findAllById(siteIds);
+            List<PatchPanel> panelsDoUsuario = patchPanelRepository.findBySiteIdIn(siteIds);
 
             long totalSites = sitesDoUsuario.size();
             long totalPatchPanels = panelsDoUsuario.size();
@@ -79,8 +79,9 @@ public class DashboardService {
                 .sum();
 
             List<Long> panelIds = panelsDoUsuario.stream().map(PatchPanel::getId).collect(Collectors.toList());
+            
             long portasEmUso = pontoDeRedeRepository.findAll().stream()
-                .filter(ponto -> panelIds.contains(ponto.getPatchPanel().getId()))
+                .filter(ponto -> ponto.getPatchPanel() != null && panelIds.contains(ponto.getPatchPanel().getId()))
                 .filter(p -> p.getTipoUso() != null &&
                              !p.getTipoUso().equalsIgnoreCase("Reserva") &&
                              !p.getTipoUso().equalsIgnoreCase("Vaga"))

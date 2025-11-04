@@ -75,6 +75,30 @@ public class SiteService {
         return siteRepository.save(novoSite);
     }
 
+    public boolean isOwner(Long siteId, Usuario usuarioLogado) {
+        if (usuarioLogado == null || siteId == null) {
+            return false;
+        }
+
+        if (usuarioLogado.getPapel() == 1) {
+            return true;
+        }
+
+        Optional<Site> siteOpt = siteRepository.findById(siteId);
+
+        if (siteOpt.isEmpty()) {
+            return false;
+        }
+
+        Site site = siteOpt.get();
+        
+        if (site.getUsuario() == null) {
+             return false;
+        }
+
+        return site.getUsuario().getId().equals(usuarioLogado.getId());
+    }
+
     public Optional<Site> findById(Long id) {
         return siteRepository.findById(id);
     }
