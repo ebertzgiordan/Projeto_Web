@@ -31,14 +31,14 @@ const SiteDetailPage = () => {
     // --- FIM DOS NOVOS STATES ---
 
     // --- Hooks de Busca (GET) ---
-    const { data: site, isLoading: isLoadingSite, isError } = useSiteByIdData(siteId); 
+    const { data: site, isLoading: isLoadingSite, isError } = useSiteByIdData(siteId);
     const { data: patchPanels, isLoading: isLoadingPanels } = usePatchPanelsData(siteId);
     const { data: pontosDeRede, isLoading: isLoadingPontos } = usePontosDeRedeByPanelData(selectedPanelId);
+    const { create: createPanel, isPending: isCreatingPanel, delete: deletePanel, isDeleting: isDeletingPanel } = usePatchPanelMutate(siteId);
 
     // --- Hooks de Mutação (POST/PUT) ---
     const { update: updateSite, isPending: isSavingNotas } = useSiteMutate();
     const { create: createPonto, update: updatePonto, delete: deletePonto, isCreating, isUpdating, isDeleting } = usePontosDeRedeMutate();
-    const { create: createPanel, isPending: isCreatingPanel } = usePatchPanelMutate();
     const { importData, isImporting } = useImportMutate(siteId);
     const isLoadingMutation = isCreating || isUpdating || isDeleting;
 
@@ -58,7 +58,7 @@ const SiteDetailPage = () => {
 
         // 2. Filtro por "Termo de Busca" (Procura no Local, IP e Notas)
         if (lowerCaseSearch) {
-            pontosFiltrados = pontosFiltrados.filter(ponto => 
+            pontosFiltrados = pontosFiltrados.filter(ponto =>
                 (ponto.localizacao && ponto.localizacao.toLowerCase().includes(lowerCaseSearch)) ||
                 (ponto.ipAddress && ponto.ipAddress.toLowerCase().includes(lowerCaseSearch)) ||
                 (ponto.notas && ponto.notas.toLowerCase().includes(lowerCaseSearch))
@@ -66,19 +66,22 @@ const SiteDetailPage = () => {
         }
 
         return pontosFiltrados;
-    }, [pontosDeRede, searchTerm, usoFilter]); 
+    }, [pontosDeRede, searchTerm, usoFilter]);
 
     // Pega os tipos de uso únicos para montar o dropdown do filtro
     const tiposDeUsoUnicos = useMemo(() => {
         if (!pontosDeRede) return [];
         const usos = pontosDeRede.map(p => p.tipoUso);
-        return [...new Set(usos)].sort(); 
+        return [...new Set(usos)].sort();
     }, [pontosDeRede]);
 
     // --- Effects ---
     useEffect(() => {
         if (patchPanels && patchPanels.length > 0 && !selectedPanelId) {
             setSelectedPanelId(patchPanels[0].id);
+        }
+        if (selectedPanelId && patchPanels && !patchPanels.find(p => p.id === selectedPanelId)) {
+            setSelectedPanelId(patchPanels.length > 0 ? patchPanels[0].id : '');
         }
     }, [patchPanels, selectedPanelId]);
 
@@ -110,14 +113,35 @@ const SiteDetailPage = () => {
         createPanel({ siteId, data }, { onSuccess: () => setShowPanelModal(false) });
     };
 
+    const handleDeletePanel = () => {
+        if (!selectedPanelId) {
+            alert("Nenhum painel selecionado para excluir.");
+            return;
+        }
+
+        const painelSelecionado = patchPanels.find(p => p.id == selectedPanelId);
+        const nomePainel = painelSelecionado ? `"${painelSelecionado.nome}"` : "este painel";
+
+        if (window.confirm(`TEM CERTEZA?\n\nExcluir ${nomePainel} irá apagar TODAS as suas ${painelSelecionado.totalPortas} portas de rede permanentemente.\n\nEsta ação não pode ser desfeita.`)) {
+            deletePanel(selectedPanelId, {
+                onSuccess: () => {
+                    alert("Painel excluído com sucesso.");
+                },
+                onError: (err) => {
+                    alert(`Erro ao excluir painel: ${err.message}`);
+                }
+            });
+        }
+    };
+
     if (isLoadingSite) return <div className="text-center mt-5"><Spinner /></div>;
-    if (isError || !site) return <Alert variant="danger" className="m-5">Site não encontrado ou erro ao carregar.</Alert>; 
+    if (isError || !site) return <Alert variant="danger" className="m-5">Site não encontrado ou erro ao carregar.</Alert>;
 
     return (
         <>
             <PontoDeRedeModal show={showPontoModal} onHide={handleClosePontoModal} onSubmit={handleSubmitPontoModal} ponto={editingPonto} isLoading={isLoadingMutation} />
             <CreatePatchPanelModal show={showPanelModal} onHide={() => setShowPanelModal(false)} onSubmit={handleCreatePanel} isLoading={isCreatingPanel} />
-            <ImportDataModal 
+            <ImportDataModal
                 show={showImportModal}
                 onHide={() => setShowImportModal(false)}
                 onSubmit={handleImportSubmit}
@@ -136,10 +160,10 @@ const SiteDetailPage = () => {
                 </Card>
 
                 <Row className="align-items-end mb-4 g-3">
-                    <Col md={5} xl={5}> 
+                    <Col md={5} xl={5}>
                         <Form.Group>
                             <Form.Label>Selecione o Patch Panel para Manutenção:</Form.Label>
-                            <Form.Select value={selectedPanelId} onChange={e => setSelectedPanelId(e.target.value)} disabled={isLoadingPanels}>
+                            <Form.Select value={selectedPanelId} onChange={e => setSelectedPanelId(Number(e.target.value))} disabled={isLoadingPanels}>
                                 {isLoadingPanels ? <option>Carregando...</option> :
                                     patchPanels?.length > 0 ?
                                         patchPanels.map(panel => <option key={panel.id} value={panel.id}>{panel.nome} ({panel.totalPortas} portas)</option>) :
@@ -152,12 +176,21 @@ const SiteDetailPage = () => {
                         <SiteUsageChart siteId={siteId} />
                     </Col>
                     <Col md={4} xl={4} className="d-flex flex-column flex-md-row justify-content-md-end">
-                        <Button variant="outline-info" onClick={() => setShowImportModal(true)} className="mb-2 mb-md-0 ms-md-2">
-                            Importar Dados
-                        </Button>
-                        <Button variant="success" onClick={() => setShowPanelModal(true)} className="ms-md-2">
-                            + Adicionar Patch Panel
-                        </Button>
+                        <ButtonGroup className="d-flex flex-column flex-md-row">
+                            <Button variant="outline-info" onClick={() => setShowImportModal(true)} disabled={isDeletingPanel}>
+                                Importar
+                            </Button>
+                            <Button variant="success" onClick={() => setShowPanelModal(true)} disabled={isDeletingPanel}>
+                                + Adicionar
+                            </Button>
+                            <Button 
+                                variant="outline-danger" 
+                                onClick={handleDeletePanel} 
+                                disabled={!selectedPanelId || isDeletingPanel}
+                            >
+                                {isDeletingPanel ? "Excluindo..." : "Excluir Painel"}
+                            </Button>
+                        </ButtonGroup>
                     </Col>
                 </Row>
 
@@ -167,7 +200,7 @@ const SiteDetailPage = () => {
                             <Col md={8}>
                                 <Form.Group>
                                     <Form.Label>Buscar em Localização / IP / Notas:</Form.Label>
-                                    <Form.Control 
+                                    <Form.Control
                                         type="text"
                                         placeholder="Ex: Mesa Flávio, 192.168..., etc."
                                         value={searchTerm}
@@ -203,34 +236,34 @@ const SiteDetailPage = () => {
                     <tbody>
                         {isLoadingPontos ? (
                             <tr><td colSpan="6" className="text-center"><Spinner size="sm" /></td></tr>
-                        ) : 
-                        filteredPontos.length > 0 ? (
-                            filteredPontos.map(ponto => (
-                                <tr key={ponto.id}>
-                                    <td>{ponto.nomeCompletoDaPorta}</td>
-                                    <td>{ponto.tipoUso}</td>
-                                    <td>{ponto.localizacao || '-'}</td>
-                                    <td>{ponto.vlan || '-'}</td>
-                                    <td>{ponto.ipAddress || '-'}</td>
-                                    <td className="text-center">
-                                        <ButtonGroup size="sm">
-                                            <Button variant="outline-primary" onClick={() => handleOpenEditPontoModal(ponto)}>Editar</Button>
-                                        </ButtonGroup>
+                        ) :
+                            filteredPontos.length > 0 ? (
+                                filteredPontos.map(ponto => (
+                                    <tr key={ponto.id}>
+                                        <td>{ponto.nomeCompletoDaPorta}</td>
+                                        <td>{ponto.tipoUso}</td>
+                                        <td>{ponto.localizacao || '-'}</td>
+                                        <td>{ponto.vlan || '-'}</td>
+                                        <td>{ponto.ipAddress || '-'}</td>
+                                        <td className="text-center">
+                                            <ButtonGroup size="sm">
+                                                <Button variant="outline-primary" onClick={() => handleOpenEditPontoModal(ponto)}>Editar</Button>
+                                            </ButtonGroup>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="6" className="text-center text-muted">
+                                        {pontosDeRede?.length === 0 ? "Nenhuma porta encontrada para este painel." : "Nenhum resultado encontrado para seus filtros."}
                                     </td>
                                 </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="6" className="text-center text-muted">
-                                    {pontosDeRede?.length === 0 ? "Nenhuma porta encontrada para este painel." : "Nenhum resultado encontrado para seus filtros."}
-                                </td>
-                            </tr>
-                        )}
+                            )}
                     </tbody>
                 </Table>
-                
+
                 <hr className="my-5" />
-                
+
                 <h3 className="mb-3">Observações do Rack</h3>
                 <Card className="shadow-sm">
                     <Card.Body>

@@ -4,6 +4,7 @@ import com.example.gerenciador.model.PatchPanel;
 import com.example.gerenciador.model.PontoDeRede;
 import com.example.gerenciador.repository.PatchPanelRepository;
 import com.example.gerenciador.repository.PontoDeRedeRepository;
+import com.example.gerenciador.repository.SiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,9 @@ public class PatchPanelService {
     @Autowired
     private PontoDeRedeRepository pontoDeRedeRepository;
 
+    @Autowired
+    private SiteRepository siteRepository;
+
     @Transactional
     public PatchPanel createPatchPanelAndPorts(PatchPanel patchPanel) {
         PatchPanel savedPanel = patchPanelRepository.save(patchPanel);
@@ -29,5 +33,10 @@ public class PatchPanelService {
             pontoDeRedeRepository.save(novoPonto);
         }
         return savedPanel;
+    }
+
+    @Transactional
+    public void deletePatchPanel(Long panelId) {
+        patchPanelRepository.deleteById(panelId);
     }
 }

@@ -26,7 +26,6 @@ public class PatchPanelController {
 
     @GetMapping("/by-site/{siteId}")
     public List<PatchPanel> getPanelsBySite(@PathVariable Long siteId) {
-        
         return patchPanelRepository.findBySiteIdOrderByNomeAsc(siteId);
     }
 
@@ -37,5 +36,11 @@ public class PatchPanelController {
         panelData.setSite(site);
         PatchPanel novoPanel = patchPanelService.createPatchPanelAndPorts(panelData);
         return ResponseEntity.ok(novoPanel);
+    }
+
+    @DeleteMapping("/{panelId}")
+    public ResponseEntity<Void> deletePanel(@PathVariable Long panelId) {
+        patchPanelService.deletePatchPanel(panelId);
+        return ResponseEntity.noContent().build(); 
     }
 }

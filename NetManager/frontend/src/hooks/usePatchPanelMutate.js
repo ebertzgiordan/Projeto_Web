@@ -6,17 +6,35 @@ const createPanel = async ({ siteId, data }) => {
     return response.data;
 };
 
-export function usePatchPanelMutate() {
+const deletePanel = async (panelId) => {
+    await api.delete(`/api/patch-panels/${panelId}`);
+};
+
+export function usePatchPanelMutate(siteId) { 
     const queryClient = useQueryClient();
-    const mutation = useMutation({
+
+    const onSuccess = () => {
+        queryClient.invalidateQueries({ queryKey: ['patch-panels', siteId] }); 
+        queryClient.invalidateQueries({ queryKey: ['pontos-de-rede-data'] }); 
+        queryClient.invalidateQueries({ queryKey: ['site-stats'] });          
+        queryClient.invalidateQueries({ queryKey: ['global-stats'] });
+    };
+
+    const createMutation = useMutation({
         mutationFn: createPanel,
-        onSuccess: (data, variables) => {
-            queryClient.invalidateQueries({ queryKey: ['patch-panels', variables.siteId] });
-        }
+        onSuccess: onSuccess 
+    });
+
+    const deleteMutation = useMutation({
+        mutationFn: deletePanel,
+        onSuccess: onSuccess 
     });
 
     return {
-        create: mutation.mutate,
-        isPending: mutation.isPending,
+        create: createMutation.mutate,
+        isCreating: createMutation.isPending,
+        
+        delete: deleteMutation.mutate,
+        isDeleting: deleteMutation.isPending,
     };
 }

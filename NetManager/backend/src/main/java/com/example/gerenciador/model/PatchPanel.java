@@ -1,5 +1,8 @@
 package com.example.gerenciador.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,4 +23,8 @@ public class PatchPanel {
     @ManyToOne
     @JoinColumn(name = "site_id", nullable = false)
     private Site site;
+
+    @OneToMany(mappedBy = "patchPanel", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore // Evita loops
+    private List<PontoDeRede> pontosDeRede;
 }
