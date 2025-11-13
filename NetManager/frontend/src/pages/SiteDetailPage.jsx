@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useSiteByIdData } from '../hooks/useSiteByIdData';
+import { useSiteByIdData } from '../hooks/useSitebyIdData';
 import { usePatchPanelsData } from '../hooks/usePatchPanelsData';
 import { usePontosDeRedeByPanelData } from '../hooks/usePontosDeRedeByPanelData';
 import { usePontosDeRedeMutate } from '../hooks/usePontosDeRedeMutante';
