@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api'; 
 import { Button, Form, Container, Alert, Card } from 'react-bootstrap';
 
 const RegisterPage = () => {
@@ -15,8 +15,8 @@ const RegisterPage = () => {
     setError('');
 
     try {
-
-      await axios.post('/auth/register', { nome, email, senha, papel: 0 });
+      // Usando 'api' em vez de 'axios'
+      await api.post('/auth/register', { nome, email, senha, papel: 0 });
 
       alert('Cadastro realizado com sucesso! Faça o login para continuar.');
       navigate('/login');

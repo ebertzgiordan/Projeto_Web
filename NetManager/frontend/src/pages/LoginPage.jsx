@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api'; 
 import { Link } from 'react-router-dom';
 import { Button, Form, Container, Alert, Card } from 'react-bootstrap';
 
@@ -15,13 +15,36 @@ const LoginPage = () => {
     setError('');
 
     try {
-      const response = await axios.post('/auth/login', { email, senha });
-      const { token } = response.data;
+      const response = await api.post('/auth/login', { email, senha });
+      
+      const token = response.data; 
+
+      console.log("RESPOSTA DO SERVIDOR:", token);
+
+      if (typeof token === 'string' && token.startsWith("ERRO NO BACKEND")) {
+          alert(token); 
+          return;
+      }
+
+      if (!token) {
+          alert("Token veio vazio!");
+          return;
+      }
+
       localStorage.setItem('jwt_token', token);
       navigate('/');
-      window.location.reload();
+      
     } catch (err) {
-      setError('Falha no login. Verifique seu email e senha.');
+      if (err.response && err.response.data) {
+          console.error("ERRO DETALHADO:", err.response.data);
+          const msgErro = typeof err.response.data === 'string' 
+              ? err.response.data 
+              : JSON.stringify(err.response.data);
+          alert("Erro do Servidor: " + msgErro);
+      } else {
+          console.error(err);
+          setError('Falha no login. Verifique o console.');
+      }
     }
   };
 
@@ -50,7 +73,7 @@ const LoginPage = () => {
           <div className="text-center mt-3">
             <Link to="/register">Não tem uma conta? Cadastre-se</Link>
           </div>
-        </Card.Body> { }
+        </Card.Body> 
       </Card>
     </Container>
   );
