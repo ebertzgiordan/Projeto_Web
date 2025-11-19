@@ -1,7 +1,6 @@
 package com.example.gerenciador.controller;
 
 import com.example.gerenciador.dto.LoginRequestDTO;
-import com.example.gerenciador.dto.LoginResponseDTO;
 import com.example.gerenciador.dto.RegisterRequestDTO;
 import com.example.gerenciador.model.Usuario;
 import com.example.gerenciador.repository.UsuarioRepository;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.Map; 
 
 @RestController
 @RequestMapping("/auth")
@@ -30,11 +30,12 @@ public class AuthenticationController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO data) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+
+        return ResponseEntity.ok(Map.of("token", token));
     }
 
     @PostMapping("/register")
