@@ -30,12 +30,36 @@ public class AuthenticationController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+    public ResponseEntity<?> login(@RequestBody LoginRequestDTO data) {
+        System.out.println(">>> [DEBUG] TENTATIVA DE LOGIN: " + data.email());
 
-        return ResponseEntity.ok(Map.of("token", token));
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
+            var auth = this.authenticationManager.authenticate(usernamePassword);
+            
+            System.out.println(">>> [DEBUG] AUTENTICAÇÃO SUCESSO. USUÁRIO: " + auth.getName());
+
+            var usuario = (Usuario) auth.getPrincipal();
+            var token = tokenService.generateToken(usuario);
+
+            if (token == null) {
+                System.out.println(">>> [ERRO CRÍTICO] TOKEN É NULO!");
+                return ResponseEntity.internalServerError().body("Token gerado é nulo");
+            }
+
+            System.out.println(">>> [DEBUG] TOKEN GERADO: " + token.substring(0, 10) + "...");
+
+            String jsonResponse = "{\"token\": \"" + token + "\"}";
+            
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(jsonResponse);
+
+        } catch (Exception e) {
+            System.out.println(">>> [ERRO NO LOGIN] EXCEÇÃO: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PostMapping("/register")
