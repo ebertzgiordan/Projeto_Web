@@ -16,7 +16,7 @@ const RegisterPage = () => {
 
     try {
 
-      await axios.post('http://localhost:8081/auth/register', { nome, email, senha, papel: 0 });
+      await axios.post('/auth/register', { nome, email, senha, papel: 0 });
 
       alert('Cadastro realizado com sucesso! Faça o login para continuar.');
       navigate('/login');

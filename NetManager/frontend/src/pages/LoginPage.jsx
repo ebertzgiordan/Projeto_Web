@@ -15,7 +15,7 @@ const LoginPage = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:8081/auth/login', { email, senha });
+      const response = await axios.post('/auth/login', { email, senha });
       const { token } = response.data;
       localStorage.setItem('jwt_token', token);
       navigate('/');
