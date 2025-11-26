@@ -18,7 +18,7 @@ A documentação visual completa da arquitetura encontra-se na pasta [`/docs/sys
 
 ### 2.1. Diagrama de Contexto
 Visão macro das interações entre os usuários (Admin/Técnico) e o sistema.
-<img src="./docs/system-design/context.png" alt="Diagrama de Contexto" width="600">
+![Diagrama de Contexto](./docs/system-design/containers.png)
 
 ### 2.2. Diagrama de Containers
 Detalhamento da arquitetura técnica (React SPA, Spring Boot API, PostgreSQL) e protocolos de comunicação.
@@ -31,7 +31,7 @@ Estrutura do banco de dados relacional, demonstrando as relações entre Usuári
 ### 2.4. Diagramas de Sequência (Login)
 Fluxo detalhado de autenticação e operação crítica.
 ![Sequência Login](./docs/system-design/sequence-login.png)
-
+C:\Users\ebert\OneDrive\Documentos\Projeto_Web\NetManager
 ### 2.4. Diagramas de Sequência (Edição)
 Fluxo de Edição de Porta
 ![Sequência Edição](./docs/system-design/port_flux.png)
