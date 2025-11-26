@@ -57,4 +57,10 @@ public class UsuarioController {
         service.resetPassword(id, data.novaSenha());
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteCurrentUser(@AuthenticationPrincipal Usuario usuario) {
+        service.deleteById(usuario.getId());
+        return ResponseEntity.noContent().build();
+    }
 }
