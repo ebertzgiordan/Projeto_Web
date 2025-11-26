@@ -35,7 +35,7 @@ C:\Users\ebert\OneDrive\Documentos\Projeto_Web\NetManager
 ### 2.4. Diagramas de Sequência (Edição)
 Fluxo de Edição de Porta
 ![Sequência Edição](./docs/system-design/port_flux.png)
-NetManager\docs\system-design
+
 ---
 
 ## 3. Tecnologias e Decisões Técnicas
