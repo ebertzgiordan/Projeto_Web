@@ -28,6 +28,7 @@ export function useProfileMutate() {
     mutationFn: deleteProfile,
     onSuccess: () => {
         alert("Sua conta foi excluída com sucesso. Até logo!");
+        queryClient.clear();
         localStorage.removeItem('jwt_token'); 
         navigate('/login');
     },
