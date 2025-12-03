@@ -73,7 +73,7 @@ Detalhamento da arquitetura técnica (React SPA, Spring Boot API, PostgreSQL) e 
 
 ### 6.3. Modelo de Dados (ERD)
 Estrutura do banco de dados relacional, demonstrando as relações entre Usuários, Sites, Painéis e Portas.
-![Modelo de Dados](./NetManager/docs/system-design/erd.png)
+![Modelo de Dados](./NetManager/docs/system-design/erdbd.png)
 
 ### 6.4. Diagramas de Sequência
 **Fluxo de Login:**
