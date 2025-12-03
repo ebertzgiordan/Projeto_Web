@@ -9,7 +9,7 @@ A documentação de infraestrutura de rede física em empresas, clínicas e agê
 * **Ineficiência Operacional:** Técnicos em campo perdem tempo consultando documentos desatualizados, o que pode levar a erros de configuração (ex: desconectar o cabo errado).
 
 O **NetManager** resolve este problema ao substituir a documentação estática por uma plataforma web dinâmica, centralizada e multiusuário, otimizada para a gestão de racks e patch panels.
-
+Disponível em: https://netmanager-front.onrender.com
 ---
 
 ## 2. Atores e Decisores
@@ -65,7 +65,6 @@ A documentação visual completa da arquitetura encontra-se na pasta [`/docs/sys
 ### 6.1. Diagrama de Contexto
 Visão macro das interações entre os usuários (Admin/Técnico) e o sistema.
 ![Diagrama de Contexto](./NetManager/docs/system-design/Diagrama_Contexto.png)
-
 
 ### 6.2. Diagrama de Containers
 Detalhamento da arquitetura técnica (React SPA, Spring Boot API, PostgreSQL) e protocolos de comunicação.
