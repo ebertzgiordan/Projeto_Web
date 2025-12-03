@@ -16,14 +16,13 @@ const SiteComparisonChart = () => {
       {
         label: 'Total de Portas por Site',
         data: sites?.map(site => site.totalPortas) || [],
-        backgroundColor: 'rgba(138, 180, 248, 0.6)', // Azul Gemini com transparência
+        backgroundColor: 'rgba(138, 180, 248, 0.6)', 
         borderColor: 'rgba(138, 180, 248, 1)',
         borderWidth: 1,
       },
     ],
   };
 
-  // --- AJUSTES DE COR AQUI ---
   const options = {
     indexAxis: 'y',
     responsive: true,
@@ -35,24 +34,24 @@ const SiteComparisonChart = () => {
       title: {
         display: true,
         text: 'Comparativo de "Tamanho" por Rack',
-        color: '#e3e3e3', // Cor do título do gráfico
+        color: '#e3e3e3', 
       },
     },
     scales: {
       x: {
         ticks: {
-          color: '#9aa0a6', // Cor dos números do eixo X
+          color: '#9aa0a6', 
         },
         grid: {
-          color: '#3c4043', // Cor das linhas de grade
+          color: '#3c4043', 
         },
       },
       y: {
         ticks: {
-          color: '#e3e3e3', // Cor dos nomes dos Racks no eixo Y
+          color: '#e3e3e3', 
         },
         grid: {
-          color: '#3c4043', // Cor das linhas de grade
+          color: '#3c4043', 
         },
       },
     },

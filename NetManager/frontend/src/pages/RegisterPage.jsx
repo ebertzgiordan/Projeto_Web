@@ -15,7 +15,6 @@ const RegisterPage = () => {
     setError('');
 
     try {
-      // Usando 'api' em vez de 'axios'
       await api.post('/auth/register', { nome, email, senha, papel: 0 });
 
       alert('Cadastro realizado com sucesso! Faça o login para continuar.');

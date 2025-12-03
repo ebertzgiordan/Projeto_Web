@@ -1,17 +1,15 @@
 :root {
-  /* Paleta de Cores "Gemini" Refinada */
-  --cor-fundo: #131314;                  /* Fundo principal (quase preto) */
-  --cor-fundo-secundario: #1e1f20;      /* Fundo de cards e elementos de superfície */
-  --cor-lateral: #2c2d2e;                 /* Fundo da barra lateral */
-  --cor-texto-principal: #e3e3e3;        /* Texto principal (branco suave) */
-  --cor-texto-secundario: #9aa0a6;       /* Texto secundário e ícones (cinza) */
-  --cor-destaque: #8ab4f8;                /* Cor de destaque principal (azul Gemini) */
-  --cor-destaque-hover: #a1c6fb;       /* Azul mais claro para hover */
-  --cor-borda: #3c4043;                  /* Cor sutil para bordas e divisões */
-  --cor-texto-botao-destaque: #202124; /* Texto escuro para botões com fundo azul */
+  --cor-fundo: #131314;                 
+  --cor-fundo-secundario: #1e1f20;      
+  --cor-lateral: #2c2d2e;                 
+  --cor-texto-principal: #e3e3e3;        
+  --cor-texto-secundario: #9aa0a6;       
+  --cor-destaque: #8ab4f8;                
+  --cor-destaque-hover: #a1c6fb;       
+  --cor-borda: #3c4043;                  
+  --cor-texto-botao-destaque: #202124; 
 }
 
-/* --- ESTILOS GLOBAIS --- */
 body {
   margin: 0;
   font-family: 'Google Sans', sans-serif, system-ui;
@@ -19,7 +17,6 @@ body {
   color: var(--cor-texto-principal);
 }
 
-/* --- SOBRESCREVENDO VARIÁVEIS DO BOOTSTRAP --- */
 body[data-bs-theme="dark"] {
   --bs-body-bg: var(--cor-fundo);
   --bs-body-color: var(--cor-texto-principal);
@@ -29,30 +26,24 @@ body[data-bs-theme="dark"] {
   --bs-secondary-rgb: 154, 160, 166;
 }
 
-/* --- ESTILIZAÇÃO ESPECÍFICA DOS COMPONENTES --- */
-
-/* Cards Principais */
 .card {
   background-color: var(--cor-fundo-secundario) !important;
   border-color: var(--cor-borda) !important;
 }
 
-/* Barra de Navegação Superior */
 .navbar {
   background-color: var(--cor-fundo-secundario) !important;
   border-bottom: 1px solid var(--cor-borda);
 }
 
-/* Botão Principal de Ação (Azul Gemini) */
 .btn-primary {
   --bs-btn-bg: var(--cor-destaque) !important;
   --bs-btn-border-color: var(--cor-destaque) !important;
-  --bs-btn-color: var(--cor-texto-botao-destaque) !important; /* Texto escuro */
+  --bs-btn-color: var(--cor-texto-botao-destaque) !important; 
   --bs-btn-hover-bg: var(--cor-destaque-hover) !important;
   --bs-btn-hover-border-color: var(--cor-destaque-hover) !important;
 }
 
-/* Botão Secundário (Ex: Sair, Cancelar) */
 .btn-secondary, .btn-outline-light {
   --bs-btn-color: var(--cor-texto-secundario);
   --bs-btn-border-color: var(--cor-borda);
@@ -64,8 +55,6 @@ body[data-bs-theme="dark"] {
     --bs-btn-color: var(--cor-texto-principal);
 }
 
-
-/* Menu Lateral (Sidebar) */
 .ps-sidebar-container {
     background-color: var(--cor-lateral) !important;
     border-right: 1px solid var(--cor-borda) !important;
@@ -96,12 +85,10 @@ body[data-bs-theme="dark"] {
     color: var(--cor-texto-botao-destaque);
 }
 
-/* Gráficos (Chart.js) */
 .card-title {
     color: var(--cor-texto-principal);
 }
 
-/* Modais */
 .modal-content {
     background-color: var(--cor-fundo-secundario);
     border-color: var(--cor-borda);

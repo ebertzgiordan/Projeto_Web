@@ -6,7 +6,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 import MainLayout from './components/MainLayout';
 import RegisterPage from './pages/RegisterPage';
 
-// Páginas que vamos criar
 import AdminUsersPage from './pages/AdminUsersPage';
 import ProfilePage from './pages/ProfilePage';
 import HelpPage from './pages/HelpPage';

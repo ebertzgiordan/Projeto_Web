@@ -11,6 +11,6 @@ public record SiteResponseDTO(
 ) {
 
     public SiteResponseDTO(Site site, Integer totalPortas) {
-        this(site.getId(), site.getNome(), site.getEndereco(), site.getNotas(), totalPortas); // <-- ADICIONE site.getNotas() AQUI
+        this(site.getId(), site.getNome(), site.getEndereco(), site.getNotas(), totalPortas); 
     }
 }
