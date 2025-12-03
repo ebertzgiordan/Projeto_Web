@@ -12,6 +12,7 @@ import { Container, Card, Table, Spinner, Alert, Button, Form, Row, Col, ButtonG
 import { useSiteMutate } from '../hooks/useSiteMutante';
 import ImportDataModal from '../components/ImportDataModal';
 import { useImportMutate } from '../hooks/useImportMutate';
+import { useUserData } from '../hooks/userData';
 
 const SiteDetailPage = () => {
     const { id: siteId } = useParams();
@@ -24,6 +25,7 @@ const SiteDetailPage = () => {
     const [editingPonto, setEditingPonto] = useState(null);
     const [notas, setNotas] = useState('');
     const [showImportModal, setShowImportModal] = useState(false);
+    const { data: usuarioLogado } = useUserData();
 
     // --- (NOVO) STATES PARA OS FILTROS ---
     const [searchTerm, setSearchTerm] = useState(''); // Para "Mesa Flávio"
@@ -104,7 +106,13 @@ const SiteDetailPage = () => {
     const handleOpenEditPontoModal = (ponto) => { setEditingPonto(ponto); setShowPontoModal(true); };
     const handleClosePontoModal = () => { setShowPontoModal(false); setEditingPonto(null); };
     const handleSubmitPontoModal = (formData) => {
-        const dataPayload = { ...formData, usuarioId: 1 };
+        if (!usuarioLogado || !usuarioLogado.id) {
+            alert("Erro: Usuário não identificado. Tente recarregar a página.");
+            return;
+        }
+
+        const dataPayload = { ...formData, usuarioId: usuarioLogado.id };
+        
         if (editingPonto) {
             updatePonto({ id: editingPonto.id, data: dataPayload }, { onSuccess: handleClosePontoModal });
         }
