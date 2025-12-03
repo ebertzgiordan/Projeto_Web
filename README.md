@@ -9,8 +9,8 @@ A documentação de infraestrutura de rede física em empresas, clínicas e agê
 * **Ineficiência Operacional:** Técnicos em campo perdem tempo consultando documentos desatualizados, o que pode levar a erros de configuração (ex: desconectar o cabo errado).
 
 O **NetManager** resolve este problema ao substituir a documentação estática por uma plataforma web dinâmica, centralizada e multiusuário, otimizada para a gestão de racks e patch panels.
-Disponível em: https://netmanager-front.onrender.com
 ---
+Disponível em: https://netmanager-front.onrender.com
 
 ## 2. Atores e Decisores
 
